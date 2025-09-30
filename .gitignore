@@ -1,0 +1,39 @@
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+books_env/
+
+# Base de données SQLite
+*.sqlite3
+*.db
+books_database.db
+*.sqlite
+*.sqlite3-journal
+
+# Scrapy spécifique
+.scrapy/
+scrapy.cfg.local
+
+
+
+# FastAPI / Uvicorn
+.uvicorn-*
+
+
+# VS Code [memory:61]
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/
+
+
+# Fichiers de configuration sensibles
+config.ini
+secrets.json
+.secrets

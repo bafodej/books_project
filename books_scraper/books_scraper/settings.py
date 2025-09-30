@@ -31,7 +31,8 @@ DOWNLOAD_DELAY = 1
 ITEM_PIPELINES = {
     'books_scraper.pipelines.ValidationPipeline': 300,
     'books_scraper.pipelines.CleaningPipeline': 400,
-    'books_scraper.pipelines.SQLitePipeline': 500,
+    'books_scraper.pipelines.AdvancedDuplicatesPipeline': 500,
+    'books_scraper.pipelines.SQLitePipeline': 600,
 }
 
 # Optimisations de performance

@@ -9,6 +9,7 @@ import sqlite3
 from itemadapter import ItemAdapter
 from scrapy.exceptions import DropItem
 import json
+import hashlib
 from datetime import datetime
 
 class ValidationPipeline:
@@ -102,3 +103,18 @@ class SQLitePipeline:
         self.connection.close()
         spider.logger.info("Database connection closed")
 
+class AdvancedDuplicatesPipeline:
+    def __init__(self):
+        self.items_seen = set()
+        self.similarity_threshold = 0.9
+    
+    def process_item(self, item, spider):
+        # Déduplication par hash de contenu
+        content_hash = hashlib.sha256(
+            f"{item.get('title', '')}{item.get('upc', '')}".encode()
+        ).hexdigest()
+        
+        if content_hash in self.items_seen:
+            raise DropItem(f"Duplicate detected: {item.get('title')}")
+        self.items_seen.add(content_hash)
+        return item
