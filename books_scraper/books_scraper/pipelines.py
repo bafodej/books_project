@@ -4,6 +4,7 @@
 # See: https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 
 
+
 # useful for handling different item types with a single interface
 import sqlite3
 from itemadapter import ItemAdapter
@@ -12,6 +13,7 @@ import json
 import hashlib
 from datetime import datetime
 
+
 class ValidationPipeline:
     """Validation des champs obligatoires"""
     def process_item(self, item, spider):
@@ -19,6 +21,7 @@ class ValidationPipeline:
         if not adapter.get('title') or not adapter.get('price'):
             raise DropItem(f"Missing required fields: {item}")
         return item
+
 
 class CleaningPipeline:
     """Nettoyage et formatage des données"""
@@ -36,6 +39,7 @@ class CleaningPipeline:
             adapter['tags'] = json.dumps(adapter['tags'])
         
         return item
+
 
 class SQLitePipeline:
     """Stockage en base SQLite"""
@@ -69,11 +73,10 @@ class SQLitePipeline:
     def process_item(self, item, spider):
         adapter = ItemAdapter(item)
         
-        # Insérer les données
         insert_sql = """
         INSERT OR IGNORE INTO books (
-            title, price, stock, rating, category, 
-            description, upc, image_url, url, scraped_at
+            title, price, upc, stock, rating, category, 
+            description, image_url, url, scraped_at
         ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """
         
@@ -81,11 +84,11 @@ class SQLitePipeline:
             self.cursor.execute(insert_sql, (
                 adapter.get('title'),
                 adapter.get('price'),
+                adapter.get('upc'),
                 adapter.get('stock', 0),
                 adapter.get('rating', 0),
                 adapter.get('category'),
                 adapter.get('description'),
-                adapter.get('upc'),
                 adapter.get('image_url'),
                 adapter.get('url'),
                 adapter.get('scraped_at')
@@ -102,6 +105,7 @@ class SQLitePipeline:
         """Fermer la connexion"""
         self.connection.close()
         spider.logger.info("Database connection closed")
+
 
 class AdvancedDuplicatesPipeline:
     def __init__(self):
