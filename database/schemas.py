@@ -55,3 +55,15 @@ class ScrapingSessionResponse(BaseModel):
     
     class Config:
         from_attributes = True
+
+class BookSearch(BaseModel):
+    query: Optional[str] = None
+    category: Optional[str] = None
+    min_price: Optional[float] = None
+    max_price: Optional[float] = None
+
+class AnalyticsResponse(BaseModel):
+    total_books: int
+    avg_price: float
+    categories_count: int
+    price_range: dict
