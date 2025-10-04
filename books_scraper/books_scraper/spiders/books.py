@@ -85,4 +85,4 @@ class BooksSpider(scrapy.Spider):
             for word, number in ratings.items():
                 if word in rating_class:
                     return number
-        return 0
+        return 0 
