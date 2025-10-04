@@ -14,47 +14,15 @@ class BookBase(BaseModel):
     image_url: Optional[HttpUrl] = None
     url: Optional[HttpUrl] = None
 
-class BookCreate(BookBase):
-    """Schéma pour la création de livres"""
-    pass
-
-class BookUpdate(BaseModel):
-    """Schéma pour la mise à jour de livres"""
-    title: Optional[str] = Field(None, min_length=1, max_length=500)
-    price: Optional[float] = Field(None, gt=0)
-    stock: Optional[int] = Field(None, ge=0)
-    rating: Optional[int] = Field(None, ge=0, le=5)
-    category: Optional[str] = Field(None, max_length=100)
-    description: Optional[str] = None
 
 class BookResponse(BookBase):
     """Schéma pour les réponses API"""
     id: int
     scraped_at: datetime
-    updated_at: Optional[datetime] = None
     
     class Config:
         from_attributes = True  # Pour la compatibilité SQLAlchemy
 
-class BookAnalytics(BaseModel):
-    """Schéma pour les données analytiques"""
-    category: str
-    avg_price: float
-    book_count: int
-    min_price: float
-    max_price: float
-
-class ScrapingSessionResponse(BaseModel):
-    """Schéma pour les sessions de scraping"""
-    id: int
-    started_at: datetime
-    finished_at: Optional[datetime] = None
-    books_scraped: int
-    errors_count: int
-    status: str
-    
-    class Config:
-        from_attributes = True
 
 class BookSearch(BaseModel):
     query: Optional[str] = None
@@ -62,8 +30,3 @@ class BookSearch(BaseModel):
     min_price: Optional[float] = None
     max_price: Optional[float] = None
 
-class AnalyticsResponse(BaseModel):
-    total_books: int
-    avg_price: float
-    categories_count: int
-    price_range: dict

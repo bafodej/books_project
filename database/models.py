@@ -25,7 +25,7 @@ class Book(Base):
     
     # Timestamps automatiques
     scraped_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+
     
     # Index composés pour les requêtes analytiques
     __table_args__ = (

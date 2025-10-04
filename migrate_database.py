@@ -42,7 +42,6 @@ def create_or_migrate_database():
             image_url TEXT,
             url TEXT UNIQUE,
             scraped_at TIMESTAMP,
-            updated_at TIMESTAMP,
             UNIQUE(title, price)
         )
         """

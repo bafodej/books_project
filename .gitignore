@@ -19,7 +19,6 @@ books_database.db
 scrapy.cfg.local
 
 
-
 # FastAPI / Uvicorn
 .uvicorn-*
 
@@ -37,3 +36,9 @@ scrapy.cfg.local
 config.ini
 secrets.json
 .secrets
+# Python cache files
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
